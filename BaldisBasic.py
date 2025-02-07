@@ -1,5 +1,5 @@
 # *************************************************************************
-# Program: YOUR_FILENAME.py
+# Program: BaldisBasic.py
 # Course: CSP1114 PROBLEM SOLVING AND PROGRAM DESIGN
 # Lecture / Lab Section: TC2L / TL4L
 # Trimester: 2430
@@ -11,6 +11,7 @@
 import json
 import os
 import time
+import sys
 
 current_time = time.ctime()
 PLAYER_DATA_FILE = "players.json"
@@ -138,6 +139,13 @@ def story():
     input("Press Enter to continue...")
     gameplay()
 
+def print_slow(str):
+    for letter in str:
+        sys.stdout.write(letter)
+        sys.stdout.flush()
+        time.sleep(0.1)
+
+
 def gameplay():
     global score, lives, question_no
     score = 0
@@ -200,7 +208,7 @@ def main_menu():
         elif choice == "2":
             load_leaderboard()
         elif choice == "3":
-            print("Thanks for playing!")
+            print_slow("Thank you for playing the game!")
             exit()
         elif choice == "4":
             settings()
