@@ -1,3 +1,8 @@
+import json
+import os
+
+PLAYER_DATA_FILE = "player_data.json"
+
 questions = ("What is 4 to the power of 2?",
              "What is the square root of 144?",
              "What is 68 plus 42",
@@ -93,6 +98,105 @@ def jumpscaretoggle():
     else:
         jumpscares -= 1
 
+def player_management():
+    # Load existing player data or initialize empty storage
+    def load_player_data():
+        if not os.path.exists(PLAYER_DATA_FILE):
+            return {}
+        try:
+            with open(PLAYER_DATA_FILE, "r") as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            print("Error reading player data file. Starting fresh.")
+            return {}
+        
+    # Save player data to file
+    def save_player_data(data):
+        try:
+            with open(PLAYER_DATA_FILE, "w") as file:
+                json.dump(data, file, indent=4)
+        except IOError:
+            print("Error saving player data.")
+
+    # Display available players
+    def display_players(data):
+        if not data:
+            print("No players available.")
+            return
+        print("\nAvailable Players:")
+        for idx, player in enumerate(data.keys(), 1):
+            print(f"{idx}. {player} (Score: {data[player]['score']}, Lives: {data[player]['lives']})")
+
+    # Add or select a player
+    def select_or_create_player(data):
+        display_players(data)
+        player_name = input("\nEnter player name or type 'new' to create a new player: ").strip()
+
+        if player_name.lower() == "new":
+            player_name = input("Enter new player name: ").strip()
+            if player_name in data:
+                print("Player already exists. Switching to existing player.")
+            else:
+                data[player_name] = {"score": 0, "lives": 3}
+                print(f"New player '{player_name}' created.")
+        
+        if player_name not in data:
+            print("Invalid player name.")
+            return None
+
+        return player_name
+    
+    # Update player score and lives
+    def update_player_data(data, player_name, correct):
+        if correct:
+            data[player_name]["score"] += 1  # Increase score if correct
+            print(f"Correct! {player_name}'s score is now {data[player_name]['score']}.")
+        else:
+            data[player_name]["lives"] -= 1  # Deduct lives if incorrect
+            if data[player_name]["lives"] <= 0:
+                data[player_name]["lives"] = 0
+                print(f"{player_name} is out of lives!") # KEITH INSERT JUMPSCARE HERE
+            else:
+                print(f"Wrong answer. {player_name}'s lives are now {data[player_name]['lives']}.")
+
+    # Test main loop 
+    def temp_main():
+        player_data = load_player_data()
+
+        while True:
+            print("\n--- Player Data Management ---") 
+            print("1. Select or Create Player")
+            print("2. Update Player Data")
+            print("3. Save and Exit")
+
+            choice = input("Choose an option: ").strip()
+
+            if choice == "1":
+                player_name = select_or_create_player(player_data)
+                if player_name:
+                    print(f"Current player: {player_name}")
+
+            elif choice == "2":
+                if not player_data:
+                    print("No players available. Please create one first.")
+                    continue
+                player_name = input("Enter player name to update: ").strip()
+                if player_name in player_data:
+                    update_player_data(player_data, player_name)
+                else:
+                    print("Player not found.")
+
+            elif choice == "3":
+                save_player_data(player_data)
+                print("Data saved. Exiting...")
+                break
+
+            else:
+                print("Invalid choice. Please select 1, 2, or 3.")
+
+    if __name__ == "__main__":
+        temp_main()
+
 def settings():
     print("\n\n\n| Options |")
     while True:
@@ -119,7 +223,8 @@ def mainmenu():
     print("\n\n\n| Welcome to the Baldi's Basic Clone Game! |")
     print(">>> Play Game (1) <<<\n"
           ">>> View Leaderboard (2) <<<\n"
-          ">>> Options (3) <<<\n")
+          ">>> Options (3) <<<\n"
+          ">>> Player Management System (4) <<<")
     choice = input("Enter your choice: ")
     if choice == "1":
         gameplay()
@@ -127,6 +232,8 @@ def mainmenu():
         leaderboard()
     elif choice == "3":
         settings()
+    elif choice == "4":
+        player_management()
     else:
         print("Invalid choice")
         mainmenu()
