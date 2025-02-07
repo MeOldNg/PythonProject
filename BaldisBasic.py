@@ -3,9 +3,9 @@
 # Course: CSP1114 PROBLEM SOLVING AND PROGRAM DESIGN
 # Lecture / Lab Section: TC2L / TL4L
 # Trimester: 2430
-# Names: MEMBER_NAME_1 | MEMBER_NAME_2 | Ng Jun Wei
-# IDs: MEMBER_ID_1 | MEMBER_ID_2 | 241FC24071 
-# Emails: MEMBER_EMAIL_1 | MEMBER_EMAIL_2 | MEMBER_EMAIL_3 
+# Names: CHIAM JUIN HOONG | CHONG SENG KIAT | NG JUN WEI
+# IDs: 242FC242N8 | 242FC2425Y | 241FC24071 
+# Emails: CHIAM.JUIN.HOONG@student.mmu.edu.my | CHONG.SENG.KIAT@student.mmu.edu.my | NG.JUN.WEI@student.mmu.edu.my
 # *************************************************************************
 
 import json
@@ -139,12 +139,15 @@ def story():
     input("Press Enter to continue...")
     gameplay()
 
+def credit():
+    print("This game is brought to you by Chiam Juin Hoong, Chong Seng Kiat and Ng Jun Wei.")
+    print("TC2L / TL4L - 5")
+
 def print_slow(str):
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush()
         time.sleep(0.1)
-
 
 def gameplay():
     global score, lives, question_no
@@ -194,7 +197,8 @@ def main_menu():
         print(">>> View Leaderboard (2) <<<")
         print(">>> Exit (3) <<<")
         print(">>> Options (4) <<<")
-        print(">>> Time Now: ",current_time)
+        print(">>> Credit (5) <<<")
+        print(">>> Time Now:",current_time,"<<<")
 
         choice = input("Choose option: ").strip()
         if choice == "1":
@@ -212,6 +216,8 @@ def main_menu():
             exit()
         elif choice == "4":
             settings()
+        elif choice == "5":
+            credit()
         elif choice == "8":
             easter_egg()
         else:
