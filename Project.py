@@ -1,6 +1,18 @@
+# *************************************************************************
+# Program: YOUR_FILENAME.py
+# Course: CSP1114 PROBLEM SOLVING AND PROGRAM DESIGN
+# Lecture / Lab Section: TC2L / TL4L
+# Trimester: 2430
+# Names: MEMBER_NAME_1 | MEMBER_NAME_2 | Ng Jun Wei
+# IDs: MEMBER_ID_1 | MEMBER_ID_2 | 241FC24071 
+# Emails: MEMBER_EMAIL_1 | MEMBER_EMAIL_2 | MEMBER_EMAIL_3 
+# *************************************************************************
+
 import json
 import os
+import time
 
+current_time = time.ctime()
 PLAYER_DATA_FILE = "players.json"
 
 # Game Variables
@@ -80,6 +92,16 @@ def load_leaderboard():
             print("No saved scores yet!")
     except Exception as e:
         print(f"Error loading leaderboard: {e}")
+
+def easter_egg():
+    print("Congratulations on finding the easter egg!")
+    print("   *****   \n"
+      "  -------  \n"
+      " ********* \n"
+      "-----------\n"
+      " ********* \n"
+      "  -------  \n"
+      "   *****   \n")
 
 def settings():
     print("\n| Options |")
@@ -164,6 +186,7 @@ def main_menu():
         print(">>> View Leaderboard (2) <<<")
         print(">>> Exit (3) <<<")
         print(">>> Options (4) <<<")
+        print(">>> Time Now: ",current_time)
 
         choice = input("Choose option: ").strip()
         if choice == "1":
@@ -181,6 +204,8 @@ def main_menu():
             exit()
         elif choice == "4":
             settings()
+        elif choice == "8":
+            easter_egg()
         else:
             print("Invalid choice! Please enter 1-4.")
 
