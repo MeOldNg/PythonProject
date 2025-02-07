@@ -221,7 +221,7 @@ def main_menu():
         elif choice == "8":
             easter_egg()
         else:
-            print("Invalid choice! Please enter 1-4.")
+            print("Invalid choice! Please enter 1-5.")
 
 if __name__ == "__main__":
     main_menu()
