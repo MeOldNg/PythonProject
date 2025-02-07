@@ -2,16 +2,8 @@ import json
 import os
 import time
 
-player_name = ""
-player_data = {}
-PLAYER_DATA_DIRECTORY = "player_data_files"
-jumpscares = 0
-lives = 3
 PLAYER_DATA_FILE = "player_data.json"
 LEADERBOARD_FILE = "leaderboard.json"
-
-if not os.path.exists(PLAYER_DATA_DIRECTORY):
-    os.makedirs(PLAYER_DATA_DIRECTORY)
 
 questions = ("What is 4 to the power of 2?",
              "What is the square root of 144?",
@@ -98,6 +90,7 @@ def gameplay():
             endscreen()
 
 def leaderboard():
+    print("Leaderboard")
     
         
     mainmenu()
@@ -111,24 +104,21 @@ def jumpscaretoggle():
 
 def player_management():
     # Load existing player data or initialize empty storage
-    def load_player_data(player_name):
-        player_file = f"{PLAYER_DATA_DIRECTORY}/{player_name}.json"
-        if not os.path.exists(player_file):
-            return {"score": 0}
+    def load_player_data():
+        if not os.path.exists(PLAYER_DATA_FILE):
+            return {}
         try:
-            with open(player_file, "r") as file:
+            with open(PLAYER_DATA_FILE, "r") as file:
                 return json.load(file)
         except json.JSONDecodeError:
             print("Error reading player data file. Starting fresh.")
-            return {"score": 0}
+            return {}
         
     # Save player data to file
-    def save_player_score(player_name, score):
-        player_file = f"{PLAYER_DATA_DIRECTORY}/{player_name}.json"
-        player_data = {"score": score}
+    def save_player_data(data):
         try:
-            with open(player_file, "w") as file:
-                json.dump(player_data, file, indent=4)
+            with open(PLAYER_DATA_FILE, "w") as file:
+                json.dump(data, file, indent=4)
         except IOError:
             print("Error saving player data.")
 
@@ -142,24 +132,23 @@ def player_management():
             print(f"{idx}. {player} (Score: {data[player]['score']}, Lives: {data[player]['lives']})")
 
     # Add or select a player
-    def select_or_create_player():
-        global player_name, player_data
-        players = [f[:-5] for f in os.listdir(PLAYER_DATA_DIRECTORY) if f.endswith(".json")]
-        print("\nAvailable Players:")
-        for i, player in enumerate(players, 1):
-            print(f"{i}. {player}")
-
+    def select_or_create_player(data):
+        display_players(data)
         player_name = input("\nEnter player name or type 'new' to create a new player: ").strip()
 
         if player_name.lower() == "new":
             player_name = input("Enter new player name: ").strip()
-            player_data = {"score": 0}
-            print(f"New player '{player_name}' created.")
-        else:
-            if player_name not in players:
-                print("Invalid player name.")
-                return select_or_create_player()
-            player_data = load_player_data(player_name)
+            if player_name in data:
+                print("Player already exists. Switching to existing player.")
+            else:
+                data[player_name] = {"score": 0, "lives": 3}
+                print(f"New player '{player_name}' created.")
+        
+        if player_name not in data:
+            print("Invalid player name.")
+            return None
+
+        return player_name
     
     # Update player score and lives
     def update_player_data(data, player_name, correct):
