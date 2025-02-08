@@ -179,10 +179,9 @@ def main_menu():
     while True:
         print("\n| Welcome to the Baldi's Basic Clone Game! |")
         print(">>> Play Game (1) <<<")
-        print(">>> View Leaderboard (2) <<<")
-        print(">>> Exit (3) <<<")
-        print(">>> Options (4) <<<")
-        print(">>> Credit (5) <<<")
+        print(">>> Exit (2) <<<")
+        print(">>> Options (3) <<<")
+        print(">>> Credit (4) <<<")
         print(">>> Time Now:",current_time,"<<<")
 
         choice = input("Choose option: ").strip()
