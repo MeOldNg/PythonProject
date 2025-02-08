@@ -1,1 +1,2 @@
 link to GitHub: https://github.com/MeOldNg/PythonProject
+tutorial used: https://youtu.be/zehwgTB0vV8?si=-zL0hzdGxhUnwdeW

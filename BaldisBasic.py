@@ -45,7 +45,7 @@ options = (("A. 12", "B. 8", "C. 16", "D. 44"),
            ("A. 14", "B. 12", "C. 13", "D. 15"),
            ("A. 25", "B. 50", "C. 75", "D. 65"))
 
-answers = ("C", "C", "A", "D", "B", "A", "C", "D", "D", "B", "A", "C", "A")
+answers = ("C", "C", "A", "D", "B", "A", "C", "D", "D", "B", "A", "C", "C")
 
 current_player = ""
 score = 0
@@ -99,7 +99,6 @@ def load_leaderboard():
         os.remove(PLAYER_DATA_FILE)  # Remove corrupted file
     except Exception as e:
         print(f"Error loading leaderboard: {e}")
-
 
 def easter_egg():
     print("Congratulations on finding the easter egg!")
@@ -217,11 +216,12 @@ def main_menu():
             story()
         elif choice == "2":
             load_leaderboard()
-            #print_slow("Thank you for playing the game!")
-            #exit()
         elif choice == "3":
-            settings()
+            print_slow("Thank you for playing the game!")
+            exit()
         elif choice == "4":
+            settings()
+        elif choice == "5":
             credit()
         elif choice == "8":
             easter_egg()
