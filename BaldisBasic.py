@@ -16,7 +16,6 @@ import sys
 current_time = time.ctime()
 PLAYER_DATA_FILE = "players.json"
 
-# Game Variables
 questions = ("What is 4 to the power of 2?",
              "What is the square root of 144?",
              "What is 68 plus 42",
@@ -81,13 +80,11 @@ def jumpscaretoggle():
 
 def load_leaderboard():
     try:
-        # Check if file exists AND has content
         if os.path.exists(PLAYER_DATA_FILE) and os.path.getsize(PLAYER_DATA_FILE) > 0:
             with open(PLAYER_DATA_FILE, "r") as f:
                 players = json.load(f)
             
             print("\n=== LEADERBOARD ===")
-            # Sort players by score descending
             sorted_players = sorted(players.items(), key=lambda x: x[1], reverse=True)
             
             for player, high_score in sorted_players:
@@ -96,7 +93,7 @@ def load_leaderboard():
             print("No saved scores yet!")
     except json.JSONDecodeError:
         print("Corrupted save file detected. Resetting leaderboard.")
-        os.remove(PLAYER_DATA_FILE)  # Remove corrupted file
+        os.remove(PLAYER_DATA_FILE) 
     except Exception as e:
         print(f"Error loading leaderboard: {e}")
 
@@ -185,7 +182,6 @@ def gameplay():
 
         question_no += 1
 
-    # Game over handling
     if lives <= 0:
         print("\nGAME OVER! You ran out of lives!")
     else:
@@ -200,9 +196,10 @@ def main_menu():
     while True:
         print("\n| Welcome to the Baldi's Basic Clone Game! |")
         print(">>> Play Game (1) <<<")
-        print(">>> Exit (2) <<<")
-        print(">>> Options (3) <<<")
-        print(">>> Credit (4) <<<")
+        print(">>> Leaderboard (2) <<<")
+        print(">>> Exit (3) <<<")
+        print(">>> Options (4) <<<")
+        print(">>> Credit (5) <<<")
         print(">>> Time Now:",current_time,"<<<")
 
         choice = input("Choose option: ").strip()
