@@ -79,6 +79,28 @@ def jumpscaretoggle():
     status = "on" if jumpscares else "off"
     print(f"Jumpscares are now {status}.")
 
+def load_leaderboard():
+    try:
+        # Check if file exists AND has content
+        if os.path.exists(PLAYER_DATA_FILE) and os.path.getsize(PLAYER_DATA_FILE) > 0:
+            with open(PLAYER_DATA_FILE, "r") as f:
+                players = json.load(f)
+            
+            print("\n=== LEADERBOARD ===")
+            # Sort players by score descending
+            sorted_players = sorted(players.items(), key=lambda x: x[1], reverse=True)
+            
+            for player, high_score in sorted_players:
+                print(f"{player}: {high_score}")
+        else:
+            print("No saved scores yet!")
+    except json.JSONDecodeError:
+        print("Corrupted save file detected. Resetting leaderboard.")
+        os.remove(PLAYER_DATA_FILE)  # Remove corrupted file
+    except Exception as e:
+        print(f"Error loading leaderboard: {e}")
+
+
 def easter_egg():
     print("Congratulations on finding the easter egg!")
     print("   *****   \n"
@@ -194,8 +216,9 @@ def main_menu():
                 print("Name cannot be empty!")
             story()
         elif choice == "2":
-            print_slow("Thank you for playing the game!")
-            exit()
+            load_leaderboard()
+            #print_slow("Thank you for playing the game!")
+            #exit()
         elif choice == "3":
             settings()
         elif choice == "4":
