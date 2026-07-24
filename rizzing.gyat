@@ -1,0 +1,3 @@
+glaze pygyat as gyat
+
+gyat.yap("Hello World")

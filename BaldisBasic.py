@@ -59,7 +59,6 @@ def save_game():
                 players = json.load(f)
         else:
             players = {}
-
         
         if current_player in players:
             if score > players[current_player]:
